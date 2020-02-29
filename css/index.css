@@ -1,7 +1,7 @@
 :root {
     --icon-color:#AAB0A1;
-    --background-color:#2F2F2F;
-    --color-hover: #3E4143
+    --background-color:##AF2F2F2F;
+    --color-hover: #AF3E4143
 }
 
 html, body {
@@ -13,7 +13,7 @@ body {
     display: flex;
     flex-direction: column;
     position: relative;
-    background: var(--background-color);
+    background-image: url("../image/bg-1.jpg");
 
 
 
@@ -86,13 +86,13 @@ div,p,img,a{
 }
 
 .email{
-    padding: 4px;
+    padding: 6px;
     margin-top: 5px;
 }
 
 .email-value {
 
-    border: 2px solid #FFFFFF2F;
+    border: 1px solid #FFFFFF2F;
     padding: 8px;
     color: #AAB0A1;
     font-size: medium;
@@ -103,13 +103,7 @@ div,p,img,a{
 }
 
 
-.full-name:hover{
-    background-color: var(--color-hover);
-}
 
-.developer:hover{
-    background-color: var(--color-hover);
-}
 
 .fa:hover{
     background-color: var(--color-hover) !important;
@@ -121,12 +115,14 @@ div,p,img,a{
     color: #b5bbac;
     font-size: large;
     font-style: initial;
-    padding: 3px;
+    padding: 10px;
 }
 
 .email-copy-to-clipboard{
     background-color: var(--background-color);
-    margin-left: -2px;
+    margin-left: 2px;
+	padding: -4px;
+
 
 }
 
