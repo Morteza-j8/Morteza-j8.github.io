@@ -1,0 +1,561 @@
+:root {
+    --tube-width: 60px;
+    --layer-height: 50px;
+    --tube-height: calc(var(--layer-height) * 4 + 30px);
+    --bg-gradient: linear-gradient(135deg, #1e3c72, #2a5298);
+    --container-bg: rgba(255, 255, 255, 0.1);
+    --border-color: rgba(255, 255, 255, 0.2);
+    --text-color: #ffffff;
+    --primary-color: #00bcd4;
+    --primary-hover-color: #00acc1;
+    --tube-bg: rgba(255, 255, 255, 0.15);
+    --tube-border-color: rgba(255, 255, 255, 0.3);
+    --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--bg-gradient);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    min-height: 100vh;
+    margin: 0;
+    font-size: 16px;
+}
+
+.main-container {
+    background: var(--container-bg);
+    backdrop-filter: blur(20px);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    width: 100%;
+    max-width: 1000px;
+    text-align: center;
+}
+
+h1 {
+    background: linear-gradient(45deg, #00bcd4, #2196f3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 2.5em;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+h2 {
+    color: var(--text-color);
+    font-size: 1.4em;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.controls-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.control-box {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+}
+
+@media (min-width: 800px) {
+    .controls-wrapper { flex-direction: row; }
+    .control-box { flex: 1; }
+}
+
+.form-group { margin: 8px; display: inline-block; }
+#row-configs-container {
+    display: flex; justify-content: center;
+    gap: 10px; margin: 10px 0; flex-wrap: wrap;
+}
+.row-config-group label { margin-right: 5px; }
+input[type="number"] {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    width: 50px;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+input[type="number"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 10px rgba(0, 188, 212, 0.3);
+}
+button {
+    background: linear-gradient(135deg, var(--primary-color), #2196f3);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: 8px;
+    box-shadow: 0 4px 15px rgba(0, 188, 212, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 188, 212, 0.4);
+}
+button:disabled {
+    background: rgba(255, 255, 255, 0.1);
+    cursor: not-allowed;
+    opacity: 0.5;
+    box-shadow: none;
+}
+#reset-btn {
+    background: linear-gradient(135deg, #ff5252, #f44336);
+}
+#reset-btn:hover {
+    box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
+}
+
+#color-palette {
+    display: flex; justify-content: center;
+    flex-wrap: wrap; gap: 8px; margin-top: 10px;
+}
+.color-option {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: all 0.3s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+.color-option::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, rgba(255,255,255,0.3), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.color-option:hover {
+    transform: scale(1.15) rotate(5deg);
+}
+.color-option:hover::before {
+    opacity: 1;
+}
+.color-option.active {
+    border-color: #fff;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    transform: scale(1.2) rotate(10deg);
+}
+
+#board-container {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 20px; margin: 25px 0;
+}
+
+.board-row {
+    display: flex;
+    justify-content: flex-start;
+    gap: 15px;
+    width: 100%;
+    padding-bottom: 10px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+
+.tube {
+    width: var(--tube-width);
+    height: var(--tube-height);
+    background: var(--tube-bg);
+    border: 3px solid var(--tube-border-color);
+    border-top: none;
+    border-radius: 0 0 30px 30px;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 5px 5px 5px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: bottom center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 -5px 15px rgba(0, 0, 0, 0.2);
+}
+.tube::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    height: 20px;
+    background: var(--tube-border-color);
+    border-radius: 50%;
+    border: 3px solid var(--tube-border-color);
+}
+.layer-slot {
+    width: 100%;
+    height: var(--layer-height);
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    margin-bottom: -2px;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: all 0.3s;
+}
+.layer-slot.selected {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 15px var(--primary-color);
+    background: rgba(0, 188, 212, 0.1);
+}
+.liquid-layer {
+    width: 100%;
+    height: var(--layer-height);
+    cursor: default;
+    border: none;
+    margin-bottom: -2px;
+    position: relative;
+    transition: all 0.3s;
+    box-shadow: inset 0 -5px 10px rgba(0, 0, 0, 0.2);
+}
+.liquid-layer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 30%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+    border-radius: 10px 10px 0 0;
+}
+.bottom-layer {
+    border-radius: 0 0 25px 25px;
+}
+
+#solution-controls .navigation {
+    display: flex; justify-content: center; align-items: center; gap: 15px;
+}
+#move-counter { font-size: 1em; font-weight: 500; min-width: 100px; }
+#status-message {
+    margin-top: 15px; font-size: 1em; font-weight: 500;
+    min-height: 20px; color: var(--primary-color);
+}
+.hidden { display: none !important; }
+
+.tube.tilting-right {
+    transform: rotate(45deg);
+}
+.tube.tilting-left {
+    transform: rotate(-45deg);
+}
+
+.liquid-layer.streaming {
+    position: fixed;
+    z-index: 100;
+    border-radius: 15px !important;
+    margin: 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    animation: liquid-wobble 0.7s ease-in-out;
+}
+
+@keyframes liquid-wobble {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    25% { transform: scale(1.05) rotate(-3deg); }
+    75% { transform: scale(0.95) rotate(3deg); }
+}
+
+.success-animation {
+    animation: success-pulse 0.5s ease-out;
+}
+
+@keyframes success-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+#game-mode-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#game-mode-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.game-stats {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 20px 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.stat-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.difficulty-btn {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 14px;
+}
+
+.difficulty-btn[data-level="easy"] {
+    background: linear-gradient(135deg, #4caf50, #8bc34a);
+}
+
+.difficulty-btn[data-level="medium"] {
+    background: linear-gradient(135deg, #ff9800, #ffc107);
+}
+
+.difficulty-btn[data-level="hard"] {
+    background: linear-gradient(135deg, #f44336, #e91e63);
+}
+
+#win-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px 60px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+#win-message h2 {
+    color: #333;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+#win-message p {
+    color: #666;
+    font-size: 1.3em;
+    margin-bottom: 30px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    :root {
+        --tube-width: 50px;
+        --layer-height: 40px;
+    }
+
+    body {
+        padding: 10px;
+    }
+
+    .main-container {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    button {
+        padding: 10px 16px;
+        font-size: 14px;
+        margin: 4px;
+    }
+
+    .color-option {
+        width: 35px;
+        height: 35px;
+    }
+
+    .game-stats {
+        gap: 20px;
+        font-size: 16px;
+    }
+
+    .stat-item {
+        padding: 8px 16px;
+    }
+
+    #win-message {
+        padding: 30px 40px;
+        width: 90%;
+        max-width: 400px;
+    }
+
+    #win-message h2 {
+        font-size: 2em;
+    }
+
+    .board-row {
+        gap: 10px;
+        padding: 10px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+    }
+
+    .controls-wrapper {
+        flex-direction: column;
+    }
+
+    .difficulty-btn {
+        display: block;
+        width: 100%;
+        margin: 5px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --tube-width: 45px;
+        --layer-height: 35px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    .main-container {
+        padding: 15px;
+    }
+
+    button {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .tube {
+        cursor: default;
+    }
+
+    .layer-slot {
+        cursor: default;
+    }
+
+    .color-option {
+        cursor: default;
+    }
+
+    button {
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+
+/* Water pouring animations */
+.liquid-stream {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    animation: liquid-flow 0.6s ease-out;
+}
+
+@keyframes liquid-flow {
+    0% { 
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    20% { 
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% { 
+        opacity: 0.9;
+        transform: scale(1);
+    }
+}
+
+.splash-effect {
+    animation: splash-animation 0.25s ease-out;
+}
+
+@keyframes splash-animation {
+    0% {
+        transform: scale(0.5);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+.tube {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Enhanced liquid layers with water-like effects */
+.liquid-layer {
+    position: relative;
+    overflow: hidden;
+}
+
+.liquid-layer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    background: linear-gradient(to bottom, 
+        rgba(255,255,255,0.4) 0%, 
+        rgba(255,255,255,0.2) 50%, 
+        transparent 100%);
+    border-radius: 10px 10px 0 0;
+}
+
+.liquid-layer::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    filter: blur(1px);
+}
+
+/* Subtle wave animation for liquid */
+@keyframes liquid-wave {
+    0%, 100% { transform: translateX(0px); }
+    50% { transform: translateX(1px); }
+}
+
+.liquid-layer {
+    animation: liquid-wave 3s ease-in-out infinite;
+}

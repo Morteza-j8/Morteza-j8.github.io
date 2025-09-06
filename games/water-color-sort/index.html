@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Sort Puzzle</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="main-container">
+    <h1>Color Sort Puzzle Solver</h1>
+
+    <div class="game-stats">
+        <div class="stat-item">Solution Steps: <span id="move-count">0</span></div>
+    </div>
+
+    <div class="controls-wrapper">
+        <div id="game-controls" class="hidden control-box">
+            <h2>Game Mode</h2>
+            <div class="action-buttons">
+                <button id="play-mode-btn">Play Game</button>
+                <button id="custom-mode-btn">Custom Level</button>
+                <button id="solve-btn-old" class="hidden">Show Solution</button>
+                <button id="reset-btn" class="hidden">Reset Level</button>
+            </div>
+            <div id="difficulty-selector" class="hidden">
+                <button class="difficulty-btn" data-level="easy">Easy</button>
+                <button class="difficulty-btn" data-level="medium">Medium</button>
+                <button class="difficulty-btn" data-level="hard">Hard</button>
+            </div>
+        </div>
+
+        <div id="setup-container" class="control-box">
+            <h2>Board Setup</h2>
+            <div class="form-group">
+                <label for="rows-input">Rows:</label>
+                <input type="number" id="rows-input" value="2" min="1" max="5">
+            </div>
+            <div id="row-configs-container"></div>
+            <button id="create-board-btn">Create Board</button>
+        </div>
+
+        <div id="palette-container" class="hidden control-box">
+            <h2>Add Colors</h2>
+            <p>Click a slot, then pick a color.</p>
+            <div id="color-palette"></div>
+            <div class="action-buttons">
+                <button id="finish-setup-btn">Setup Complete - Ready to Solve</button>
+            </div>
+        </div>
+
+        <div id="play-controls" class="hidden control-box">
+            <h2>Solver Controls</h2>
+            <div class="action-buttons">
+                <button id="solve-btn">Show Solution</button>
+                <button id="reset-puzzle-btn">Reset Puzzle</button>
+                <button id="new-puzzle-btn">Create New Puzzle</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="board-container"></div>
+
+    <p id="status-message"></p>
+
+    <div id="win-message" class="hidden">
+        <h2>🎉 Congratulations! 🎉</h2>
+        <p>You solved the puzzle!</p>
+        <button id="next-level-btn">Next Level</button>
+    </div>
+
+    <div id="solution-controls" class="hidden">
+        <h2>3. View Solution</h2>
+        <div class="navigation">
+            <button id="prev-btn" disabled>Previous</button>
+            <span id="move-counter">Step: 0 / 0</span>
+            <button id="next-btn" disabled>Next</button>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
