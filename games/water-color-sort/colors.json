@@ -16,6 +16,10 @@
     "name": "Goldenrod"
   },
   {
+    "hex": "#512174",
+    "name": "Purple"
+  },
+  {
     "hex": "#9E6141",
     "name": "Brown"
   },
@@ -50,5 +54,9 @@
   {
     "hex": "#7b7d58",
     "name": "Olive Drab"
+  },
+  {
+    "hex": "#000000",
+    "name": "Black"
   }
 ]
